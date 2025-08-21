@@ -1,1 +1,76 @@
-print("Shahwaiz")
+import csv
+from datetime import datetime
+import os
+
+def log_message(message):
+    with open("log.txt", "a") as file:
+        file.write(f"[{datetime.now()}] {message}\n")
+
+def ensure_products_file():
+    if not os.path.exists("products.csv"):
+        with open("products.csv", "w", newline="") as file:
+            write = csv.write(file)
+            write.writerow(["id", "name", "price"])
+            write.writerow([1, "Laptop", 1200])
+            write.writerow([2, "Phone", 800])
+            write.writerow([3, "Headphones", 150])
+            write.writerow([4, "Mouse", 40])
+            write.writerow([5, "Keyboard", 60])
+
+class Order:
+    discount_rate = 0  
+
+    def __init__(self):
+        self.items = []
+
+    @staticmethod
+    def log_action(func):
+        def wrapper(*args, **kwargs):
+            log_message(f"Executed {func.__name__}")
+            return func(*args, **kwargs)
+        return wrapper
+
+    @log_action
+    def add_item_by_id(self, product_id, quantity):
+        with open("products.csv", "r") as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                if int(row["id"]) == product_id:
+                    total = int(row["price"]) * quantity
+                    self.items.append(total)
+                    log_message(f"Added item: {row['name']} (x{quantity}) - Total: {total}")
+                    return
+        log_message(f"Invalid product ID attempt: {product_id}")
+
+    @log_action
+    def calculate_total(self):
+        total = sum(self.items)
+        if Order.discount_rate > 0:
+            total = total - (total * Order.discount_rate / 100)
+        log_message(f"Calculated total with discount: {total}")
+        return total
+
+    @classmethod
+    def set_discount(cls, discount_rate):
+        cls.discount_rate = discount_rate
+        log_message(f"Discount set to {discount_rate}%")
+
+    @staticmethod
+    def is_valid_product_id(product_id):
+        with open("products.csv", "r") as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                if int(row["id"]) == product_id:
+                    return True
+        log_message(f"Invalid product ID attempt: {product_id}")
+        return False
+
+if __name__ == "__main__":
+    ensure_products_file()   
+
+    order = Order()
+    order.add_item_by_id(1, 2)   
+    order.add_item_by_id(4, 3)   
+    order.add_item_by_id(99, 1)  
+    Order.set_discount(10)       
+    print("Final Total:", order.calculate_total())
