@@ -1,0 +1,9 @@
+[2025-08-21 15:32:10.549313] Executed add_item_by_id
+[2025-08-21 15:32:10.568369] Added item: Laptop (x2) - Total: 2400
+[2025-08-21 15:32:10.569110] Executed add_item_by_id
+[2025-08-21 15:32:10.570064] Added item: Mouse (x3) - Total: 120
+[2025-08-21 15:32:10.570906] Executed add_item_by_id
+[2025-08-21 15:32:10.572050] Invalid product ID attempt: 99
+[2025-08-21 15:32:10.572839] Discount set to 10%
+[2025-08-21 15:32:10.573974] Executed calculate_total
+[2025-08-21 15:32:10.574957] Calculated total with discount: 2268.0
