@@ -1,0 +1,49 @@
+import numpy as np
+Student_data = {"st-1":{"Maths":85,"Urdu":70,"Sindhi":40,"Chemistry":90,"Physics":60},
+               "st-2":{"Maths":70,"Urdu":75,"Sindhi":40,"Chemistry":90,"Physics":60},
+               "st-3":{"Maths":80,"Urdu":70,"Sindhi":95,"Chemistry":90,"Physics":60},
+               "st-4":{"Maths":80,"Urdu":70,"Sindhi":50,"Chemistry":85,"Physics":60},
+               "st-5":{"Maths":80,"Urdu":75,"Sindhi":40,"Chemistry":90,"Physics":60}}
+std_id = np.array([key for key in Student_data.keys()])
+std_array = np.array([list(std.values()) for std in Student_data.values()])
+subjects = np.array([list(std.keys()) for std in Student_data.values()])[0]
+print(std_id)
+print(std_array)
+print(subjects)
+
+total_marks = np.sum(std_array,axis = 1)
+#print(total_marks)
+top_students = np.argsort(-total_marks)
+print(total_marks)
+print(top_students)
+
+Student_data = {"st-1":{"Maths":85,"Urdu":70,"Sindhi":40,"Chemistry":90,"Physics":60},
+               "st-2":{"Maths":70,"Urdu":75,"Sindhi":40,"Chemistry":90,"Physics":60},
+               "st-3":{"Maths":80,"Urdu":70,"Sindhi":95,"Chemistry":90,"Physics":60},
+               "st-4":{"Maths":80,"Urdu":70,"Sindhi":50,"Chemistry":85,"Physics":60},
+               "st-5":{"Maths":80,"Urdu":75,"Sindhi":40,"Chemistry":90,"Physics":60}}
+std_id = np.array([key for key in Student_data.keys()])
+std_array = np.array([list(std.values()) for std in Student_data.values()])
+subjects = np.array([list(std.keys()) for std in Student_data.values()])[0]
+print(std_id)
+print(std_array)
+print(subjects)
+
+total_marks = np.sum(std_array,axis = 1)
+#print(total_marks)
+top_students = np.argsort(-total_marks)
+print(total_marks)
+print(top_students)
+
+for rank, loc in enumerate(top_students):
+    print("*"*10)
+    print(f"Rank: {rank+1}\nStudent Id:{std_id[loc]}\nTotal marks:{total_marks[loc]}")
+    for sub, marks in zip(subjects,std_array[loc]):
+        print(f"{sub}: {marks}")
+        print("*"*10)
+for rank, loc in enumerate(top_students):
+    print("*"*10)
+    print(f"Rank: {rank+1}\nStudent Id:{std_id[loc]}\nTotal marks:{total_marks[loc]}")
+    for sub, marks in zip(subjects,std_array[loc]):
+        print(f"{sub}: {marks}")
+        print("*"*10)
