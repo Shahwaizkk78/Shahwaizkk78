@@ -41,9 +41,29 @@ for rank, loc in enumerate(top_students):
     for sub, marks in zip(subjects,std_array[loc]):
         print(f"{sub}: {marks}")
         print("*"*10)
-for rank, loc in enumerate(top_students):
-    print("*"*10)
-    print(f"Rank: {rank+1}\nStudent Id:{std_id[loc]}\nTotal marks:{total_marks[loc]}")
-    for sub, marks in zip(subjects,std_array[loc]):
-        print(f"{sub}: {marks}")
-        print("*"*10)
+#task2
+temps = np.array([
+    [30, 32, 31, 29, 28, 27, 26],   # City A
+    [22, 21, 23, 24, 25, 26, 24],   # City B
+    [15, 17, 16, 18, 19, 20, 21]    # City C
+])
+
+max_city_a = temps[0].max()
+print("1. Max temperature in City A:", max_city_a)
+
+highest_temp = temps.max()
+day = temps.argmax() % temps.shape[1]  
+print("2. Highest temperature across all cities:", highest_temp)
+print("   On Day:", day + 1)
+
+avg_a = temps[0].mean()
+avg_b = temps[1].mean()
+
+print("3. Avg temp City A:", avg_a)
+print("   Avg temp City B:", avg_b)
+
+if avg_a > avg_b:
+    print("   City A is generally warmer")
+else:
+    print("   City B is generally warmer")
+
