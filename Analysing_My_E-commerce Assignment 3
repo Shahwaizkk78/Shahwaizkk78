@@ -1,1 +1,51 @@
+import pandas as pd
 
+orders = pd.read_csv('orders.csv', na_values=['Fail','abcent',""])
+products = pd.read_csv('products.csv')
+customers = pd.read_csv('customers.csv')
+products
+
+orders.order_date = pd.to_datetime(orders.order_date)
+
+merged_orders = orders.merge(products[['product_id','price']] ,on = 'product_id', how ='left')
+
+repeat_customers_count = (orders['customer_id'].value_counts() > 1).sum()
+
+print("Number of repeat customers:", repeat_customers_count)
+
+merged_orders.head()
+
+merged_orders['product_id'].value_counts()
+top_product_id = merged_orders['product_id'].value_counts().idxmax()
+top_product_name = merged_orders.loc[merged_orders['product_id'] == top_product_id, 'product_name'].iloc[0]
+print("Top selling product (on repeated basis):", top_product_name)
+
+merged_orders = orders.merge(products[['product_id', 'product_name', 'price']], on='product_id', how='left')
+merged_orders['total_price'] = merged_orders['quantity'] * merged_orders['price']
+merged_orders
+
+product_sales = merged_orders.groupby(['product_id','product_name'])['quantity'].sum()
+least_product = product_sales.idxmin()
+print("Least selling product (by quantity):", least_product[1])
+
+merged_orders['product_id'].value_counts()
+
+customer_visits = merged_orders['customer_id'].value_counts()
+Loyal_customers = customer_visits[customer_visits > 5]
+print("Customers eligible for discount")
+print(Loyal_customers)
+
+Total_Revenue = merged_orders['total_price'].sum()
+print(f"My Total Revenue from my Store : {Total_Revenue:,.2f} ")
+
+merged_orders['order_date'] = pd.to_datetime(merged_orders['order_date'])
+yearly_sales = merged_orders.groupby(merged_orders['order_date'].dt.year)['total_price'].sum().reset_index()
+yearly_sales.columns = ['Year', 'Total_Revenue']
+print(" Yearly Sales Report:")
+print(yearly_sales)
+
+merged_orders['Year'] = merged_orders['order_date'].dt.year
+merged_orders['Month'] = merged_orders['order_date'].dt.month
+monthly_sales = merged_orders.groupby(['Year', 'Month'])['total_price'].sum().reset_index()
+print("Monthly Sales Report:")
+print(monthly_sales)
